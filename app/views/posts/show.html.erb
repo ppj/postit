@@ -9,3 +9,26 @@
 
 <p><%= link_to 'Edit Post', edit_post_path(@post) %></p>
 <p><%= link_to 'Back', posts_path %></p>
+
+<% if @comment.errors.any? %>
+  <div class='alert alert-error'>
+    <ol>
+      <% @comment.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ol>
+  </div>
+<% end %>
+<%= form_for [@post, @comment] do |f| %>
+  <strong><%= f.label :body, "New Comment:" %></strong>
+  <%= f.text_area :body %>
+  <br>
+  <%= f.submit 'Add', class: 'btn btn-small btn-primary' %>
+<% end %>
+
+<h4>Previous Comments:</h4>
+<% @post.comments.each do |post| %>
+  <div class='span8 well well-small'>
+    <p><%= post.body %></p>
+  </div>
+<% end %>

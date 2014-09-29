@@ -12,7 +12,7 @@
         <%= link_to 'Edit Post', edit_post_path(post) %>
       </p>
       <span>
-        <%= link_to "#{post.comments.size} comments", post_path(post) %>
+        <%= link_to pluralize(post.comments.size, "Comment"), post_path(post) %>
       </span>
     </div>
   </div>
