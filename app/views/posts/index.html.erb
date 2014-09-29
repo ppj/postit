@@ -7,8 +7,9 @@
       <h4><%= link_to post.title, post_path(post) %></h4>
       <p><%= post.description %></p>
       <p>
-        <span class='quiet'>Posted by</span> <%= post.creator.username %>
+        <span class='quiet'>Posted by</span> <%= (post.creator.nil? ? 'Guest' : post.creator.username) %>
         <small>at <%= post.created_at %></small>
+        <%= link_to 'Edit Post', edit_post_path(post) %>
       </p>
       <span>
         <%= link_to "#{post.comments.size} comments", post_path(post) %>
