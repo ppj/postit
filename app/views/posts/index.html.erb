@@ -7,8 +7,7 @@
       <h4><%= link_to post.title, post_path(post) %></h4>
       <p><%= post.description %></p>
       <p>
-        <span class='quiet'>Posted by</span> <%= (post.creator.nil? ? 'Guest' : post.creator.username) %>
-        <small>at <%= post.created_at %></small>
+        <%= render 'shared/footer', item: post %>
         <%= link_to 'Edit Post', edit_post_path(post) %>
       </p>
       <span>

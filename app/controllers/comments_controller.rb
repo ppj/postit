@@ -4,6 +4,7 @@ class CommentsController < ApplicationController
 
     @post    = Post.find(params[:post_id])
     @comment = @post.comments.new(params.require(:comment).permit(:body))
+    @comment.creator = User.first # FIXME: Change once we have authentication
 
     if @comment.save
       flash[:notice] = "New comment added"

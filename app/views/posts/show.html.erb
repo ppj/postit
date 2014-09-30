@@ -1,3 +1,7 @@
+<p class='pull-right'>
+  [<%= link_to 'Edit this post', edit_post_path(@post) %>]
+</p>
+
 <%= render 'shared/content_title', title: link_to(@post.title, @post.url) %>
 
 <p>
@@ -7,7 +11,7 @@
 <p><%= @post.description %></p>
 <hr/>
 
-<p><%= link_to 'Edit Post', edit_post_path(@post) %></p>
+<p>By: <%= @post.creator.username %></p>
 <p><%= link_to 'Back', posts_path %></p>
 
 <% if @comment.errors.any? %>
@@ -27,8 +31,11 @@
 <% end %>
 
 <h4>Previous Comments:</h4>
-<% @post.comments.each do |post| %>
+<% @post.comments.each do |comment| %>
   <div class='span8 well well-small'>
-    <p><%= post.body %></p>
+    <p><%= comment.body %></p>
+    <p>
+      <%= render 'shared/footer', item: comment %>
+    </p>
   </div>
 <% end %>

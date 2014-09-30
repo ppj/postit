@@ -1,25 +1,31 @@
 <% if @post.errors.any? %>
-  <div class='alert alert-error'>
-    <h5>Encountered error(s) trying to save/udpate post:</h5>
-    <ol>
-      <% @post.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-    </ol>
+  <div class='row'>
+    <div class='alert alert-error span8'>
+      <h5>Encountered error(s) trying to save/udpate post:</h5>
+      <ol>
+        <% @post.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ol>
+    </div>
   </div>
 <% end %>
 
-<%= form_for @post do |f| %>
-  <%= f.label :title %>
-  <%= f.text_field :title %>
-
-  <%= f.label :url %>
-  <%= f.text_field :url %>
-
-  <%= f.label :description %>
-  <%= f.text_area :description %>
-
-  <br>
-  <%= f.submit class: 'btn btn-primary'%>
-
-<% end %>
+<div class='well'>
+  <%= form_for @post do |f| %>
+    <div class='control-group'>
+      <%= f.label :title %>
+      <%= f.text_field :title %>
+    </div>
+    <div class='control-group'>
+      <%= f.label :url %>
+      <%= f.text_field :url %>
+    </div>
+    <div class='control-group'>
+      <%= f.label :description %>
+      <%= f.text_area :description, rows: 4 %>
+    </div>
+    <br>
+    <%= f.submit class: 'btn btn-primary'%>
+  <% end %>
+</div>
