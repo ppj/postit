@@ -5,4 +5,6 @@ PostitTemplate::Application.routes.draw do
     resources :comments, only: [:create]
   end
 
+  resources :categories
+
 end

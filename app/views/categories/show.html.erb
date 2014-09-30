@@ -1,0 +1,3 @@
+<%= render 'shared/content_title', title: link_to('All Posts', posts_path)+" >> "+@category.name %>
+
+<%= render 'shared/posts', list: @category.posts %>

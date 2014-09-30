@@ -1,19 +1,5 @@
 <%= render 'shared/content_title', title: "All Posts" %>
 
-<% @posts.each do |post| %>
-  <div class='row'>
-    <div class='span8 well'>
-      <%= render post.categories %>
-      <h4><%= link_to post.title, post_path(post) %></h4>
-      <p><%= post.description %></p>
-      <p>
-        <%= render 'shared/footer', item: post %>
-        <%= link_to 'Edit Post', edit_post_path(post) %>
-      </p>
-      <span>
-        <%= link_to pluralize(post.comments.size, "Comment"), post_path(post) %>
-      </span>
-    </div>
-  </div>
-<% end %>
+<%= render 'shared/posts', list: @posts %>
+
 
