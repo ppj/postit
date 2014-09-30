@@ -1,16 +1,4 @@
-<% if @post.errors.any? %>
-  <div class='row'>
-    <div class='alert alert-error span8'>
-      <h5>Encountered error(s) trying to save/udpate post:</h5>
-      <ol>
-        <% @post.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ol>
-    </div>
-  </div>
-<% end %>
-
+<%= render 'shared/errors', model_obj: @post %>
 <div class='well'>
   <%= form_for @post do |f| %>
     <div class='control-group'>
