@@ -11,18 +11,13 @@
 <p><%= @post.description %></p>
 <hr/>
 
-<p>By: <%= @post.creator.username %></p>
+<p>
+  <%= render 'shared/footer', item: @post %>
+</p>
 <p><%= link_to 'Back', posts_path %></p>
 
-<% if @comment.errors.any? %>
-  <div class='alert alert-error'>
-    <ol>
-      <% @comment.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-    </ol>
-  </div>
-<% end %>
+<%= render 'shared/errors', model_obj: @comment %>
+
 <%= form_for [@post, @comment] do |f| %>
   <strong><%= f.label :body, "New Comment:" %></strong>
   <%= f.text_area :body %>
