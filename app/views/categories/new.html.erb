@@ -1,8 +1,8 @@
 <%= render 'shared/content_title', title: "Add Category" %>
 
-<%= render 'shared/errors', model_obj: @category %>
 
 <div class='well'>
+  <%= render 'shared/errors', model_obj: @category %>
   <%= form_for @category do |f| %>
     <div class='control-group'>
       <%= f.label :name %>
