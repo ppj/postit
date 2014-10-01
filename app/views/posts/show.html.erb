@@ -21,7 +21,7 @@
 <%= form_for [@post, @comment] do |f| %>
   <strong><%= f.label :body, "New Comment:" %></strong>
   <%= f.text_area :body, rows: 3, class: 'span4' %>
-  <br>
+  <br/>
   <%= f.submit 'Add', class: 'btn btn-small btn-primary' %>
 <% end %>
 
