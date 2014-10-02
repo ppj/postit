@@ -17,6 +17,7 @@ class PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
     @post.creator = User.last # FIXME: Change once we have authentication
+    # @post.categories << Category.last # FIXME: Trial
 
     if @post.save
       flash[:notice] = "Post created successfully!"
@@ -31,7 +32,6 @@ class PostsController < ApplicationController
   end
 
   def update
-
     if @post.update(post_params)
       flash[:notice] = "Post updated successfully!"
       redirect_to post_path(@post)
@@ -45,7 +45,7 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :url, :description)
+    params.require(:post).permit(:title, :url, :description, category_ids: [])
   end
 
   def set_post
