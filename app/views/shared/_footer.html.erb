@@ -1,2 +1,2 @@
-<span class='quiet'>By</span> <%= item.creator.username %>
+<span class='quiet'>By</span> <%= link_to item.creator.username, user_path(item.creator) %>
 <small>at <%= item.created_at %></small>

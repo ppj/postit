@@ -17,7 +17,6 @@ class PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
     @post.creator = User.last # FIXME: Change once we have authentication
-    # @post.categories << Category.last # FIXME: Trial
 
     if @post.save
       flash[:notice] = "Post created successfully!"

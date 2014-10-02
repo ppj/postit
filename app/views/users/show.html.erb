@@ -1,0 +1,4 @@
+<% header = "#{link_to('All Posts', posts_path)} &raquo; #{@user.username}".html_safe %>
+<%= render 'shared/content_title', title: header %>
+
+<%= render 'shared/posts', list: @user.posts %>

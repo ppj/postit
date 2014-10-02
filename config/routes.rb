@@ -7,4 +7,6 @@ PostitTemplate::Application.routes.draw do
 
   resources :categories, only: [:show, :new, :create ]
 
+  resources :users, only: [:show]
+
 end
