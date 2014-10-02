@@ -2,7 +2,7 @@
   [<%= link_to 'Edit this post', edit_post_path(@post) %>]
 </p>
 
-<%= render 'shared/content_title', title: link_to(@post.title, @post.url) %>
+<%= render 'shared/content_title', title: link_to( @post.title, fix_url(@post.url) ) %>
 
 <p>
   <%= render @post.categories %>
