@@ -19,6 +19,10 @@
       <%= f.collection_check_boxes :category_ids, Category.all, :id, :name do |b| %>
         <% b.label(class: "checkbox inline") { b.check_box(class: "checkbox inline") + b.text } %>
       <% end %>
+      <%= render('shared/errors', model_obj: @category) if @category %>
+      <% new_category = @new_category ? @new_category : "" %>
+      <%= label_tag :new_category, "Create a new category: " %>
+      <%= text_field_tag :new_category, new_category %>
     </div>
     <%= f.submit class: 'btn btn-primary'%>
   <% end %>

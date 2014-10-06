@@ -15,13 +15,27 @@ class PostsController < ApplicationController
   end
 
   def create
+
     @post = Post.new(post_params)
     @post.creator = User.last # FIXME: Change once we have authentication
 
-    if @post.save
-      flash[:notice] = "Post created successfully!"
+    category_index = create_new_category
+
+    if category_index
+      flash[:notice] = "Category & Post created successfully!"
+      category_check_passed = true
+    elsif @category
+      category_check_passed = @category.errors.empty?
+    else
+      category_check_passed = true
+    end
+
+    if @post.save && category_check_passed
+      @post.categories << @category if category_index
+      flash[:notice] ||= "Post created successfully!"
       redirect_to posts_path
     else
+      @new_category = params[:new_category]
       render :new
     end
 
@@ -31,10 +45,24 @@ class PostsController < ApplicationController
   end
 
   def update
-    if @post.update(post_params)
-      flash[:notice] = "Post updated successfully!"
+
+    category_index = create_new_category
+
+    if category_index
+      flash[:notice] = "Category & Post created successfully!"
+      category_check_passed = true
+    elsif @category
+      category_check_passed = @category.errors.empty?
+    else
+      category_check_passed = true
+    end
+
+    if @post.update(post_params) && category_check_passed
+      @post.categories << @category if category_index
+      flash[:notice] ||= "Post updated successfully!"
       redirect_to post_path(@post)
     else
+      @new_category = params[:new_category]
       render :edit
     end
 
@@ -49,6 +77,28 @@ class PostsController < ApplicationController
 
   def set_post
     @post = Post.find(params[:id])
+  end
+
+  def create_new_category
+
+    if params[:new_category].strip.empty?
+      false
+    else
+      category_names = Category.all.map(&:name)
+      index = category_names.index(params[:new_category])
+      if index
+        @category = Category.find_by(name: category_names[index])
+        @category.id
+      else
+        @category = Category.new(name: params[:new_category])
+        if @category.save
+          @category.id
+        else
+          false
+        end
+      end
+    end
+
   end
 
 end
