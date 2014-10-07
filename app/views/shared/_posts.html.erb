@@ -6,7 +6,9 @@
       <p><%= post.description %></p>
       <p>
         <%= render 'shared/footer', item: post %>
-        <%= link_to 'Edit Post', edit_post_path(post) %>
+        <% if current_user == post.creator %>
+          <%= link_to 'Edit Post', edit_post_path(post) %>
+        <% end %>
       </p>
       <span>
         <%= link_to pluralize(post.comments.size, "Comment"), post_path(post) %>

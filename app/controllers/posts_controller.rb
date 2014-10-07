@@ -2,6 +2,11 @@ class PostsController < ApplicationController
 
   before_action :set_post, only: [:show, :edit, :update]
 
+  before_action :require_user, except: [:index, :show]
+
+  before_action :match_user, only: [:edit]
+
+
   def index
     @posts = Post.all
   end
@@ -17,7 +22,7 @@ class PostsController < ApplicationController
   def create
 
     @post = Post.new(post_params)
-    @post.creator = User.last # FIXME: Change once we have authentication
+    @post.creator = current_user
 
     category_index = create_new_category
 
@@ -77,6 +82,13 @@ class PostsController < ApplicationController
 
   def set_post
     @post = Post.find(params[:id])
+  end
+
+  def match_user
+    unless current_user == @post.creator
+      flash[:error] = "You cannot edit this post!"
+      redirect_to post_path(@post)
+    end
   end
 
   def create_new_category

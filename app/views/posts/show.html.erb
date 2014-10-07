@@ -1,6 +1,8 @@
-<p class='pull-right'>
-  [<%= link_to 'Edit this post', edit_post_path(@post) %>]
-</p>
+<% if current_user == @post.creator %>
+  <p class='pull-right'>
+    [<%= link_to 'Edit this post', edit_post_path(@post) %>]
+  </p>
+<% end %>
 
 <%= render 'shared/content_title', title: link_to( @post.title, fix_url(@post.url) ) %>
 
@@ -16,13 +18,15 @@
 </p>
 <p><%= link_to 'Back', posts_path %></p>
 
-<%= render 'shared/errors', model_obj: @comment %>
 
-<%= form_for [@post, @comment] do |f| %>
-  <strong><%= f.label :body, "New Comment:" %></strong>
-  <%= f.text_area :body, rows: 3, class: 'span4' %>
-  <br/>
-  <%= f.submit 'Add', class: 'btn btn-small btn-primary' %>
+<% if logged_in? %>
+  <%= render 'shared/errors', model_obj: @comment %>
+  <%= form_for [@post, @comment] do |f| %>
+    <strong><%= f.label :body, "New Comment:" %></strong>
+    <%= f.text_area :body, rows: 3, class: 'span4' %>
+    <br/>
+    <%= f.submit 'Add', class: 'btn btn-small btn-primary' %>
+  <% end %>
 <% end %>
 
 <h4>Previous Comments:</h4>
