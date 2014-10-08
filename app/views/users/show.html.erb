@@ -10,13 +10,23 @@
 
 <h5><%= @user.username %>'s Activity</h5>
 <ul class="nav nav-tabs">
-  <li class="active">
-    <a href="#">Posts (<%= @user.posts.size %>)</a>
-  </li>
-  <li>
-    <a href="#">Comments (<%= @user.comments.size %>)</a>
-  </li>
+  <% unless params[:tab] == 'comments' %>
+    <li class="active">
+  <% else %>
+    <li>
+  <% end %>
+      <%= link_to "Posts (#{@user.posts.size})", user_path(@user) %>
+    </li>
+  <% if params[:tab] == 'comments' %>
+    <li class="active">
+  <% else %>
+    <li>
+  <% end %>
+      <%= link_to "Comments (#{@user.comments.size})", user_path(@user, tab: 'comments') %>
+    </li>
 </ul>
-
-<%= render 'shared/posts', list: @user.posts %>
-
+<% if params[:tab] == 'comments' %>
+  <%= render 'shared/comments', comments: @user.comments %>
+<% else %>
+  <%= render 'shared/posts', list: @user.posts %>
+<% end %>
