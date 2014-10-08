@@ -18,7 +18,6 @@ class ApplicationController < ActionController::Base
       flash[:error] = "You need to log in before trying that!"
       redirect_to root_path
     end
-
   end
 
 end
