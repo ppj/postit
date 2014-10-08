@@ -1,0 +1,11 @@
+<% comments.each do |comment| %>
+  <div class='span8 well well-small'>
+    <p>
+      "<em><%= comment.body %></em>"
+      <% if params[:tab] == 'comments' %>
+        on <%= link_to comment.post.title, post_path(comment.post) %>
+      <% end %>
+    </p>
+    <p><%= render 'shared/footer', item: comment %></p>
+  </div>
+<% end %>
