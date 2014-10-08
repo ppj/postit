@@ -1,4 +1,22 @@
-<% header = "#{link_to('All Posts', posts_path)} &raquo; #{@user.username}".html_safe %>
-<%= render 'shared/content_title', title: header %>
+<%= render 'shared/content_title', title: "Profile: #{@user.username}" %>
+
+
+  <div class='well'>
+    <dl class='dl-horizontal'>
+      <dt>Username: </dt>
+      <dd><%= @user.username %></dd>
+    </dl>
+  </div>
+
+<h5><%= @user.username %>'s Activity</h5>
+<ul class="nav nav-tabs">
+  <li class="active">
+    <a href="#">Posts (<%= @user.posts.size %>)</a>
+  </li>
+  <li>
+    <a href="#">Comments (<%= @user.comments.size %>)</a>
+  </li>
+</ul>
 
 <%= render 'shared/posts', list: @user.posts %>
+
