@@ -1,8 +1,9 @@
+<% show_post_title ||= false %>
 <% comments.each do |comment| %>
   <div class='span8 well well-small'>
     <p>
       "<em><%= comment.body %></em>"
-      <% if params[:tab] == 'comments' %>
+      <% if show_post_title %>
         on <%= link_to comment.post.title, post_path(comment.post) %>
       <% end %>
     </p>
