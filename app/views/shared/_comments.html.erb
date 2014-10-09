@@ -1,17 +1,19 @@
 <% show_post_title ||= false %>
 <% comments.each do |comment| %>
   <div class='row'>
-    <div class='span0 well text-center'>
-      <%= link_to vote_post_comment_path(comment.post, comment, vote: true), method: 'post' do %>
-        <i class='icon-arrow-up'></i>
-      <% end %>
-      <br>
-      <%= "#{pluralize(comment.vote_count, "Vote")}" %>
-      <br>
-      <%= link_to vote_post_comment_path(comment.post, comment, vote: false), method: 'post' do %>
-        <i class='icon-arrow-down'></i>
-      <% end %>
-    </div>
+    <% if logged_in? %>
+      <div class='span0 well text-center'>
+        <%= link_to vote_post_comment_path(comment.post, comment, vote: true), method: 'post' do %>
+          <i class='icon-arrow-up'></i>
+        <% end %>
+        <br>
+        <%= "#{pluralize(comment.vote_count, "Vote")}" %>
+        <br>
+        <%= link_to vote_post_comment_path(comment.post, comment, vote: false), method: 'post' do %>
+          <i class='icon-arrow-down'></i>
+        <% end %>
+      </div>
+    <% end %>
     <div class='span8 well well-small'>
       <p>
         "<em><%= comment.body %></em>"
