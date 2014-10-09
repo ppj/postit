@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
 
-  before_action :set_post, only: [:show, :edit, :update]
+  before_action :set_post, only: [:show, :edit, :update, :vote]
 
   before_action :require_user, except: [:index, :show]
 
@@ -70,6 +70,19 @@ class PostsController < ApplicationController
       @new_category = params[:new_category]
       render :edit
     end
+
+  end
+
+  def vote
+    vote = Vote.create(vote: params[:vote], creator: current_user, voteable: @post)
+
+    if vote.valid?
+      flash[:notice] = 'Your vote was cast.'
+    else
+      flash[:error]  = 'You can vote only once on this post.'
+    end
+
+    redirect_to :back
 
   end
 

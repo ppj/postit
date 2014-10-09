@@ -1,12 +1,25 @@
 <% show_post_title ||= false %>
 <% comments.each do |comment| %>
-  <div class='span8 well well-small'>
-    <p>
-      "<em><%= comment.body %></em>"
-      <% if show_post_title %>
-        on <%= link_to comment.post.title, post_path(comment.post) %>
+  <div class='row'>
+    <div class='span0 well text-center'>
+      <%= link_to vote_post_comment_path(comment.post, comment, vote: true), method: 'post' do %>
+        <i class='icon-arrow-up'></i>
       <% end %>
-    </p>
-    <p><%= render 'shared/footer', item: comment %></p>
+      <br>
+      <%= "#{pluralize(comment.vote_count, "Vote")}" %>
+      <br>
+      <%= link_to vote_post_comment_path(comment.post, comment, vote: false), method: 'post' do %>
+        <i class='icon-arrow-down'></i>
+      <% end %>
+    </div>
+    <div class='span8 well well-small'>
+      <p>
+        "<em><%= comment.body %></em>"
+        <% if show_post_title %>
+          on <%= link_to comment.post.title, post_path(comment.post) %>
+        <% end %>
+      </p>
+      <p><%= render 'shared/footer', item: comment %></p>
+    </div>
   </div>
 <% end %>
