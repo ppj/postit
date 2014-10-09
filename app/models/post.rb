@@ -4,6 +4,8 @@ class Post < ActiveRecord::Base
   has_many :post_categories
   has_many :categories, through: :post_categories
 
+  has_many :votes, as: :voteable, dependent: :destroy
+
   validates :title, length: {minimum: 5}
   validates :url, presence: true, uniqueness: true
   validates :description, length: {minimum: 20}
