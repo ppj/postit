@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
 
-  before_action :set_post
+  before_action :set_post, except: [:vote]
 
   before_action :require_user
 
@@ -19,8 +19,8 @@ class CommentsController < ApplicationController
   end
 
   def vote
-    @comment = Comment.find(params[:id])
-    vote = Vote.create(vote: params[:vote], creator: current_user, voteable: @comment)
+    comment = Comment.find(params[:id])
+    vote    = Vote.create(vote: params[:vote], creator: current_user, voteable: comment)
 
     if vote.valid?
       flash[:notice] = 'Your vote was cast.'
