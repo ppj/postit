@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
 
-  before_action :set_post, only: [:show, :edit, :update, :vote]
+  before_action :set_post, only: [:show, :edit, :update, :vote, :vote_destroy]
 
   before_action :require_user, except: [:index, :show]
 
@@ -84,6 +84,16 @@ class PostsController < ApplicationController
 
     redirect_to :back
 
+  end
+
+  def vote_destroy
+    vote = Vote.find_by(creator: current_user, voteable: @post)
+    if vote
+      vote.destroy
+      flash[:notice] = 'Your vote on that post was cancelled'
+    end
+
+    redirect_to :back
   end
 
 

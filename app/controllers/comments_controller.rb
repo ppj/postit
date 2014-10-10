@@ -2,6 +2,8 @@ class CommentsController < ApplicationController
 
   before_action :set_post, except: [:vote]
 
+  before_action :set_comment, except: [:create]
+
   before_action :require_user
 
   def create
@@ -19,7 +21,6 @@ class CommentsController < ApplicationController
   end
 
   def vote
-    comment = Comment.find(params[:id])
     vote    = Vote.create(vote: params[:vote], creator: current_user, voteable: comment)
 
     if vote.valid?
@@ -32,10 +33,24 @@ class CommentsController < ApplicationController
 
   end
 
+  def vote_destroy
+    vote = Vote.find_by(creator: current_user, voteable: @comment)
+    if vote
+      vote.destroy
+      flash[:notice] = 'Your vote on that comment was cancelled'
+    end
+
+    redirect_to :back
+  end
+
   private
 
   def set_post
     @post    = Post.find(params[:post_id])
+  end
+
+  def set_comment
+    @comment = Comment.find(params[:id])
   end
 
 end

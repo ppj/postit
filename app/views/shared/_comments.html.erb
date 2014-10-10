@@ -3,14 +3,26 @@
   <div class='row'>
     <% if logged_in? %>
       <div class='span0 well text-center'>
-        <%= link_to vote_post_comment_path(comment.post, comment, vote: true), method: 'post' do %>
-          <i class='icon-thumbs-up'></i>
+        <% if Vote.where(creator: current_user, vote: true, voteable: comment).any? %>
+          <%= link_to vote_destroy_post_comment_path(comment.post, comment), method: 'delete' do %>
+            <i class='icon-fire'></i>
+          <% end %>
+        <% else %>
+          <%= link_to vote_post_comment_path(comment.post, comment, vote: true), method: 'post' do %>
+            <i class='icon-thumbs-up'></i>
+          <% end %>
         <% end %>
         <br>
         <%= "#{pluralize(comment.vote_count, "Vote")}" %>
         <br>
-        <%= link_to vote_post_comment_path(comment.post, comment, vote: false), method: 'post' do %>
-          <i class='icon-thumbs-down'></i>
+        <% if Vote.where(creator: current_user, vote: false, voteable: comment).any? %>
+          <%= link_to vote_destroy_post_comment_path(comment.post, comment), method: 'delete' do %>
+            <i class='icon-fire'></i>
+          <% end %>
+        <% else %>
+          <%= link_to vote_post_comment_path(comment.post, comment, vote: false), method: 'post' do %>
+            <i class='icon-thumbs-down'></i>
+          <% end %>
         <% end %>
       </div>
     <% end %>

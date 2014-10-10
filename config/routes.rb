@@ -4,11 +4,13 @@ PostitTemplate::Application.routes.draw do
   resources :posts, except: [:destroy] do
     member do
       post 'vote'
+      delete 'vote/destroy', to: 'posts#vote_destroy'
     end
 
     resources :comments, only: [:create] do
       member do
         post 'vote'
+        delete 'vote/destroy', to: 'comments#vote_destroy'
       end
     end
 
