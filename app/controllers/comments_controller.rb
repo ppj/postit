@@ -21,7 +21,7 @@ class CommentsController < ApplicationController
   end
 
   def vote
-    vote    = Vote.create(vote: params[:vote], creator: current_user, voteable: comment)
+    vote    = Vote.create(vote: params[:vote], creator: current_user, voteable: @comment)
 
     if vote.valid?
       flash[:notice] = 'Your vote was cast.'
