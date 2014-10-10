@@ -18,7 +18,7 @@
     </li>
 </ul>
 <% if params[:tab] == 'comments' %>
-  <%= render 'shared/comments', comments: @user.comments, show_post_title: true %>
+  <%= render 'shared/comments', comments: @user.comments.sort_by{|x| x.vote_count}.reverse, show_post_title: true %>
 <% else %>
-  <%= render 'shared/posts', list: @user.posts %>
+  <%= render 'shared/posts', list: @user.posts.sort_by{|x| x.vote_count}.reverse %>
 <% end %>
