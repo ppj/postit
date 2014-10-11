@@ -1,10 +1,8 @@
 class PostsController < ApplicationController
 
-  before_action :set_post, except: [:index, :new]
-
+  before_action :set_post,     except: [:index, :new, :create]
   before_action :require_user, except: [:index, :show]
-
-  before_action :match_user, only: [:edit]
+  before_action :match_user,   only:   [:edit]
 
 
   def index
