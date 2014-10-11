@@ -1,31 +1,17 @@
 <% show_post_title ||= false %>
 <% comments.each do |comment| %>
   <div class='row'>
-    <% if logged_in? %>
-      <div class='span0 well text-center'>
-        <% if Vote.where(creator: current_user, vote: true, voteable: comment).any? %>
-          <%= link_to vote_destroy_post_comment_path(comment.post, comment), method: 'delete' do %>
-            <i class='icon-fire'></i>
-          <% end %>
-        <% else %>
-          <%= link_to vote_post_comment_path(comment.post, comment, vote: true), method: 'post' do %>
-            <i class='icon-thumbs-up'></i>
-          <% end %>
-        <% end %>
+    <div class='span0 well text-center'>
+      <% if logged_in? %>
+        <%= link_based_on_current_users_vote_on_comment(comment, true) %>
         <br>
-        <%= "#{pluralize(comment.vote_count, "Vote")}" %>
+      <% end %>
+      <%= "#{comment.vote_count} from #{pluralize(comment.votes.size, "Vote")}" %>
+      <% if logged_in? %>
         <br>
-        <% if Vote.where(creator: current_user, vote: false, voteable: comment).any? %>
-          <%= link_to vote_destroy_post_comment_path(comment.post, comment), method: 'delete' do %>
-            <i class='icon-fire'></i>
-          <% end %>
-        <% else %>
-          <%= link_to vote_post_comment_path(comment.post, comment, vote: false), method: 'post' do %>
-            <i class='icon-thumbs-down'></i>
-          <% end %>
-        <% end %>
-      </div>
-    <% end %>
+        <%= link_based_on_current_users_vote_on_comment(comment, false) %>
+      <% end %>
+    </div>
     <div class='span8 well well-small'>
       <p>
         "<em><%= comment.body %></em>"

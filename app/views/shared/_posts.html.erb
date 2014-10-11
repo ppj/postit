@@ -1,30 +1,16 @@
 <% list.each do |post| %>
   <div class='row'>
-    <% if logged_in? %>
-      <div class='span0 well text-center'>
-        <% if Vote.where(creator: current_user, vote: true, voteable: post).any? %>
-          <%= link_to vote_destroy_post_path(post), method: 'delete' do %>
-            <i class='icon-fire'></i>
-          <% end %>
-        <% else %>
-          <%= link_to vote_post_path(post, vote: true), method: 'post' do %>
-            <i class='icon-thumbs-up'></i>
-          <% end %>
-        <% end %>
-        <br/>
-        <%= "#{pluralize(post.vote_count, "Vote")}" %>
-        <br/>
-        <% if Vote.where(creator: current_user, vote: false, voteable: post).any? %>
-          <%= link_to vote_destroy_post_path(post), method: 'delete' do %>
-            <i class='icon-fire'></i>
-          <% end %>
-        <% else %>
-          <%= link_to vote_post_path(post, vote: false), method: 'post' do %>
-            <i class='icon-thumbs-down'></i>
-          <% end %>
-        <% end %>
-      </div>
-    <% end %>
+    <div class='span0 well text-center'>
+      <% if logged_in? %>
+        <%= link_based_on_current_users_vote_on_post(post, true) %>
+        <br>
+      <% end %>
+      <%= "#{post.vote_count} from #{pluralize(post.votes.size, "Vote")}" %>
+      <% if logged_in? %>
+        <br>
+        <%= link_based_on_current_users_vote_on_post(post, false) %>
+      <% end %>
+    </div>
     <div class='span8 well'>
       <%= render post.categories %>
       <h4><%= link_to post.title, post_path(post) %></h4>
