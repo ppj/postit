@@ -5,7 +5,7 @@
         <%= link_based_on_current_users_vote_on_post(post, true) %>
         <br>
       <% end %>
-      <%= "#{post.vote_count} from #{pluralize(post.votes.size, "Vote")}" %>
+      <%= "<strong>#{post.vote_count}</strong> <small>(#{pluralize(post.votes.size, "Vote")})</small>".html_safe %>
       <% if logged_in? %>
         <br>
         <%= link_based_on_current_users_vote_on_post(post, false) %>
