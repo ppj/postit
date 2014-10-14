@@ -1,14 +1,14 @@
 <% list.each do |post| %>
   <div class='row'>
-    <div class='span0 well text-center'>
+    <div class='span0 well text-center' id='post_<%= post.id %>_votebox'>
       <% if logged_in? %>
-        <%= link_based_on_current_users_vote_on_post(post, true) %>
+        <span id='voteup'><%= link_based_on_current_users_vote_on_post(post, true) %></span>
         <br>
       <% end %>
-      <%= "<strong>#{post.vote_count}</strong> <small>(#{pluralize(post.votes.size, "Vote")})</small>".html_safe %>
+      <span id='votes'><%= "<strong>#{post.vote_count}</strong> <small>(#{pluralize(post.votes.size, "Vote")})</small>".html_safe %></span>
       <% if logged_in? %>
         <br>
-        <%= link_based_on_current_users_vote_on_post(post, false) %>
+        <span id='votedown'><%= link_based_on_current_users_vote_on_post(post, false) %></span>
       <% end %>
     </div>
     <div class='span8 well'>

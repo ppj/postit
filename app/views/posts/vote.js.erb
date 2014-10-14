@@ -1,0 +1,10 @@
+<% if @vote.valid? %>
+  $('#post_<%= @post.id %>_votebox > #votes').html("<strong><%= @post.vote_count %></strong> <small>(<%= pluralize(@post.votes.size, "Vote")%>)</small>");
+  <% if @vote.vote %>
+    $('#post_<%= @post.id %>_votebox > #voteup').html("<%= escape_javascript(link_based_on_current_users_vote_on_post(@post, true) ) %>");
+  <% else %>
+    $('#post_<%= @post.id %>_votebox > #votedown').html("<%= escape_javascript(link_based_on_current_users_vote_on_post(@post, false) ) %>");
+  <% end %>
+<% else %>
+  alert("You have already voted on that post!");
+<% end %>

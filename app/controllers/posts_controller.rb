@@ -72,26 +72,34 @@ class PostsController < ApplicationController
   end
 
   def vote
-    vote = Vote.create(vote: params[:vote], creator: current_user, voteable: @post)
+    @vote = Vote.create(vote: params[:vote], creator: current_user, voteable: @post)
 
-    if vote.valid?
-      flash[:notice] = 'Your vote was cast.'
-    else
-      flash[:error]  = 'You can vote only once on this post.'
+    respond_to do |format|
+      format.html {
+        if @vote.valid?
+          flash[:notice] = 'Your vote was cast.'
+        else
+          flash[:error]  = 'You can vote only once on this post.'
+        end
+        redirect_to :back
+      }
+      format.js # by default renders the vote.js.erb template in the views/posts folder
     end
-
-    redirect_to :back
 
   end
 
   def vote_destroy
-    vote = Vote.find_by(creator: current_user, voteable: @post)
-    if vote
-      vote.destroy
-      flash[:notice] = 'Your vote on that post was cancelled'
+    @vote = Vote.find_by(creator: current_user, voteable: @post)
+    @vote.destroy if @vote
+
+    respond_to do |format|
+      format.html {
+        flash[:notice] = 'Your vote on that post was cancelled'
+        redirect_to :back
+      }
+      format.js { render 'vote' }
     end
 
-    redirect_to :back
   end
 
 
