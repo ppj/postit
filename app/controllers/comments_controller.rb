@@ -21,26 +21,32 @@ class CommentsController < ApplicationController
   end
 
   def vote
-    vote    = Vote.create(vote: params[:vote], creator: current_user, voteable: @comment)
-
-    if vote.valid?
-      flash[:notice] = 'Your vote was cast.'
-    else
-      flash[:error]  = 'You can vote only once on this comment.'
+    @vote    = Vote.create(vote: params[:vote], creator: current_user, voteable: @comment)
+    respond_to do |format|
+      format.html {
+        if @vote.valid?
+          flash[:notice] = 'Your vote was cast.'
+        else
+          flash[:error]  = 'You can vote only once on this comment.'
+        end
+        redirect_to :back
+      }
+      format.js # by default renders the vote.js.erb template in the comments folder
     end
-
-    redirect_to :back
-
   end
 
   def vote_destroy
-    vote = Vote.find_by(creator: current_user, voteable: @comment)
-    if vote
-      vote.destroy
-      flash[:notice] = 'Your vote on that comment was cancelled'
+    @vote = Vote.find_by(creator: current_user, voteable: @comment)
+    @vote.destroy if @vote
+
+    respond_to do |format|
+      format.html {
+        flash[:notice] = 'Your vote on that comment was cancelled'
+        redirect_to :back
+      }
+      format.js { render 'vote' }
     end
 
-    redirect_to :back
   end
 
   private
