@@ -25,19 +25,23 @@ class PostsController < ApplicationController
     category_index = create_new_category
 
     if category_index
-      flash[:notice] = "Category & Post created successfully!"
+      flash[:notice] = "Category created successfully!"
       category_check_passed = true
     elsif @category
+      flash[:notice] = ''
       category_check_passed = @category.errors.empty?
     else
+      flash[:notice] = ''
       category_check_passed = true
     end
 
     if @post.save && category_check_passed
       @post.categories << @category if category_index
-      flash[:notice] ||= "Post created successfully!"
+      flash[:notice] << " " unless flash[:notice].empty?
+      flash[:notice] << "Post created successfully!"
       redirect_to posts_path
     else
+      flash[:notice] = nil if flash[:notice].empty?
       @new_category = params[:new_category]
       render :new
     end
@@ -52,19 +56,23 @@ class PostsController < ApplicationController
     category_index = create_new_category
 
     if category_index
-      flash[:notice] = "Category & Post created successfully!"
+      flash[:notice] = "Category created successfully!"
       category_check_passed = true
     elsif @category
+      flash[:notice] = ''
       category_check_passed = @category.errors.empty?
     else
+      flash[:notice] = ''
       category_check_passed = true
     end
 
     if @post.update(post_params) && category_check_passed
       @post.categories << @category if category_index
-      flash[:notice] ||= "Post updated successfully!"
+      flash[:notice] << " " unless flash[:notice].empty?
+      flash[:notice] << "Post updated successfully!"
       redirect_to post_path(@post)
     else
+      flash[:notice] = nil if flash[:notice].empty?
       @new_category = params[:new_category]
       render :edit
     end
