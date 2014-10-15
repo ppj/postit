@@ -4,7 +4,10 @@ module ApplicationHelper
   end
 
   def fix_time(time)
-    time.localtime.strftime("(%d-%b-%Y %I:%M%p %Z)")
+    if logged_in?
+      time = time.in_time_zone(current_user.timezone)
+    end
+    time.strftime("(%d-%b-%Y %I:%M%p %Z)")
   end
 
   def link_based_on_current_users_vote_on_post(post_object, value)
