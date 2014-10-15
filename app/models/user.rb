@@ -7,4 +7,8 @@ class User < ActiveRecord::Base
 
   validates :username, length: {minimum: 3}, uniqueness: true
   validates :password, on: :create, length: {minimum: 3}
+
+  def admin?
+    self.role == 'admin'
+  end
 end

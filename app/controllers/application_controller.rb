@@ -20,4 +20,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def require_admin
+    unless logged_in? and current_user.admin?
+      flash[:error] = "You need admin access to do that!"
+      redirect_to root_path
+    end
+  end
+
 end
