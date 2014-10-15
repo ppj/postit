@@ -4,7 +4,7 @@ module ApplicationHelper
   end
 
   def fix_time(time)
-    time.localtime.strftime("(%d-%b-%Y %I:%M%p %z)")
+    time.localtime.strftime("(%d-%b-%Y %I:%M%p %Z)")
   end
 
   def link_based_on_current_users_vote_on_post(post_object, value)
