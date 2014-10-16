@@ -6,7 +6,7 @@ class Post < ActiveRecord::Base
 
   has_many :votes, as: :voteable, dependent: :destroy
 
-  before_create :generate_slug
+  before_save :generate_slug!
 
   validates :title, length: {minimum: 5}
   validates :url, presence: true, uniqueness: true
@@ -30,8 +30,37 @@ class Post < ActiveRecord::Base
 
   private
 
-  def generate_slug
-    self.slug = self.title.gsub(/\s+/,'_').gsub(/\W/,'').gsub('_','-').gsub(/-+$/,'').gsub(/^-+/,'').gsub(/-+/,'-').downcase
+  def generate_slug!
+    the_slug = to_slug(self.title)
+
+    count = 1
+    record = Post.find_by slug: the_slug
+    while record and record != self
+      the_slug = make_unique(the_slug, count)
+      record = Post.find_by slug: the_slug
+      count += 1
+    end
+
+    self.slug = the_slug
+  end
+
+  def to_slug(str)                # str=" @#$@ My First @#2@%#@ Post!!
+    str = str.strip               #  --> @#$@ My First @#2@%#@ Post!!
+    str.gsub!(/[^A-Za-z0-9]/,'-') #  --> -----My-First---2-----Post--
+    str.gsub!(/-+/,'-')           #  --> -My-First-2-Post-
+    str.gsub!(/^-+/,'')           #  --> My-First-2-Post-
+    str.gsub!(/-+$/,'')           #  --> My-First-2-Post
+    str.downcase                  #  --> my-first-2-post
+  end
+
+  def make_unique(the_slug, count)
+    arr = the_slug.split('-')
+    if arr.last.to_i == 0
+      the_slug = the_slug + '-' + count.to_s
+    else
+      the_slug = arr[0...-1].join('-') + '-' + count.to_s
+    end
+    the_slug
   end
 
 end
