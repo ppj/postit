@@ -1,6 +1,6 @@
 <% list.each do |post| %>
   <div class='row'>
-    <div class='span0 well text-center' id='post_<%= post.id %>_votebox'>
+    <div class='span0 well text-center' id='post_<%= post.slug %>_votebox'>
       <% if logged_in? %>
         <span id='voteup'><%= link_based_on_current_users_vote_on_post(post, true) %></span>
         <br>
