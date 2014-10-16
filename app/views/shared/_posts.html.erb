@@ -2,13 +2,11 @@
   <div class='row'>
     <div class='span0 well text-center' id='post_<%= post.slug %>_votebox'>
       <% if logged_in? %>
-        <span id='voteup'><%= link_based_on_current_users_vote_on_post(post, true) %></span>
-        <br>
+        <span id='voteup'><%= link_based_on_current_users_vote_on_post(post, true) %></span><br>
       <% end %>
       <span id='votes'><%= "<strong>#{post.vote_count}</strong> <small>(#{pluralize(post.votes.size, "Vote")})</small>".html_safe %></span>
       <% if logged_in? %>
-        <br>
-        <span id='votedown'><%= link_based_on_current_users_vote_on_post(post, false) %></span>
+        <br><span id='votedown'><%= link_based_on_current_users_vote_on_post(post, false) %></span>
       <% end %>
     </div>
     <div class='span8 well'>

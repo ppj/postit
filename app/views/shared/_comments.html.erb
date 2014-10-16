@@ -3,13 +3,11 @@
   <div class='row'>
     <div class='span0 well text-center' id='comment_<%= comment.id %>_votebox'>
       <% if logged_in? %>
-        <span id='voteup'><%= link_based_on_current_users_vote_on_comment(comment, true) %></span>
-        <br>
+        <span id='voteup'><%= link_based_on_current_users_vote_on_comment(comment, true) %></span><br>
       <% end %>
       <span id='votes'><%= "<strong>#{comment.vote_count}</strong> <small>(#{pluralize(comment.votes.size, "Vote")})</small>".html_safe %></span>
       <% if logged_in? %>
-        <br>
-        <span id='votedown'><%= link_based_on_current_users_vote_on_comment(comment, false) %></span>
+        <br><span id='votedown'><%= link_based_on_current_users_vote_on_comment(comment, false) %></span>
       <% end %>
     </div>
     <div class='span8 well well-small'>
