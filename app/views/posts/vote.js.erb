@@ -1,5 +1,5 @@
 <% if @vote.valid? %>
-  $('#post_<%= @post.slug %>_votebox > #votes').html("<strong><%= @post.vote_count %></strong> <small>(<%= pluralize(@post.votes.size, "Vote")%>)</small>");
+  $('#post_<%= @post.slug %>_votebox > #votes').html("<strong><%= @post.total_votes %></strong> <small>(<%= pluralize(@post.votes.size, "Vote")%>)</small>");
   <% if @vote.vote %>
     $('#post_<%= @post.slug %>_votebox > #voteup').html("<%= escape_javascript(link_based_on_current_users_vote_on_post(@post, true) ) %>");
   <% else %>

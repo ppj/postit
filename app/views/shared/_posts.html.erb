@@ -4,7 +4,7 @@
       <% if logged_in? %>
         <span id='voteup'><%= link_based_on_current_users_vote_on_post(post, true) %></span><br>
       <% end %>
-      <span id='votes'><%= "<strong>#{post.vote_count}</strong> <small>(#{pluralize(post.votes.size, "Vote")})</small>".html_safe %></span>
+      <span id='votes'><%= "<strong>#{post.total_votes}</strong> <small>(#{pluralize(post.votes.size, "Vote")})</small>".html_safe %></span>
       <% if logged_in? %>
         <br><span id='votedown'><%= link_based_on_current_users_vote_on_post(post, false) %></span>
       <% end %>

@@ -5,7 +5,7 @@ module Voteable
     has_many :votes, as: :voteable, dependent: :destroy
   end
 
-  def vote_count
+  def total_votes
     up_votes - down_votes
   end
 
