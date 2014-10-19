@@ -15,10 +15,10 @@ module Sluggable
     model = self.class.to_s
 
     count = 1
-    record = eval "#{model}.find_by slug: the_slug"
+    record = self.class.find_by slug: the_slug
     while record and record != self
       the_slug = make_unique(the_slug, count)
-      record = eval "#{model}.find_by slug: the_slug"
+      record = self.class.find_by slug: the_slug
       count += 1
     end
 
