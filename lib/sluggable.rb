@@ -1,7 +1,16 @@
 module Sluggable
   extend ActiveSupport::Concern
 
-  # before_save :generate_slug!
+  included do
+    class_attribute :slug_column
+    before_save :generate_slug!
+  end
+
+  module ClassMethods
+    def set_slug_column_to(column)
+      self.slug_column = column
+    end
+  end
 
   def to_param
     self.slug
@@ -9,9 +18,9 @@ module Sluggable
 
   private
 
-  def generate_slug!(attr)
+  def generate_slug!
 
-    the_slug = to_slug(eval "self.#{attr}")
+    the_slug = to_slug(self.send(self.class.slug_column))
     model = self.class.to_s
 
     count = 1
