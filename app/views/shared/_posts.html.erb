@@ -15,7 +15,7 @@
       <p><%= post.description %></p>
       <p>
         <%= render 'shared/footer', item: post %>
-        <% if current_user == post.creator %>
+        <% if logged_in? and (current_user==post.creator or current_user.admin?) %>
           <%= link_to 'Edit Post', edit_post_path(post) %>
         <% end %>
       </p>

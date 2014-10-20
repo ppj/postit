@@ -2,8 +2,7 @@ class PostsController < ApplicationController
 
   before_action :set_post,     except: [:index, :new, :create]
   before_action :require_user, except: [:index, :show]
-  before_action :match_user,   only:   [:edit]
-
+  before_action :require_creator_or_admin, only:   [:edit, :update]
 
   def index
     @posts = Post.all.sort_by{|x| x.updated_at}.reverse
@@ -121,11 +120,8 @@ class PostsController < ApplicationController
     @post = Post.find_by(slug: params[:id])
   end
 
-  def match_user
-    unless current_user == @post.creator
-      flash[:error] = "You cannot edit this post!"
-      redirect_to post_path(@post)
-    end
+  def require_creator_or_admin
+    access_denied "You cannot edit this post!" unless logged_in? and (current_user == @post.creator or current_user.admin?)
   end
 
   def create_new_category
