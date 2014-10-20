@@ -11,7 +11,7 @@
     </div>
     <div class='control-group'>
       <%= f.label :timezone %>
-      <%= f.time_zone_select :timezone, nil, include_blank: true, default: 'UTC' %>
+      <%= f.time_zone_select :timezone, nil, default: Time.zone.name %>
     </div>
     <%= f.submit @user.new_record? ? "Register" : "Save Profile", class: 'btn btn-primary'%>
   <% end %>
