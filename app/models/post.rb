@@ -1,6 +1,6 @@
 class Post < ActiveRecord::Base
   include Voteable
-  include Sluggable
+  include Slugable
   set_slug_column_to :title
 
   belongs_to :creator, foreign_key: 'user_id', class_name: 'User'

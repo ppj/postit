@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  include Sluggable
+  include Slugable
   set_slug_column_to :username
 
   has_many :posts, dependent: :destroy
