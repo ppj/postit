@@ -136,7 +136,7 @@ class PostsController < ApplicationController
 
   def create_new_category
 
-    if params[:new_category].strip.empty?
+    if !params[:new_category] or params[:new_category].strip.empty?
       false
     else
       category_names = Category.all.map(&:name)
