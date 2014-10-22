@@ -21,7 +21,6 @@ module Slugable
   def generate_slug!
 
     the_slug = to_slug(self.send(self.class.slug_column))
-    model = self.class.to_s
 
     count = 1
     record = self.class.find_by slug: the_slug
