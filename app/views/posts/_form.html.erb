@@ -21,9 +21,8 @@
       <% end %>
       <% if logged_in? and current_user.admin? %>
         <%= render('shared/errors', model_obj: @category) if @category %>
-        <% new_category = @new_category ? @new_category : "" %>
         <%= label_tag :new_category, "Create a new category: " %>
-        <%= text_field_tag :new_category, new_category %>
+        <%= text_field_tag :new_category, params[:new_category] %>
       <% end %>
     </div>
     <%= f.submit class: 'btn btn-primary'%>

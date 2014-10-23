@@ -31,27 +31,25 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
     @post.creator = current_user
 
-    category_index = create_new_category
+    @category = create_new_category
 
-    if category_index
-      flash[:notice] = "Category created successfully!"
-      category_check_passed = true
-    elsif @category
-      flash[:notice] = ''
-      category_check_passed = @category.errors.empty?
-    else
-      flash[:notice] = ''
-      category_check_passed = true
+    flash[:notice] = ''
+    if @category and @category.new_record?
+      if @category.save
+        flash[:notice] = "Category created successfully! "
+      else
+        flash[:error] = "Category not created: #{@category.errors.full_messages.join('; ')}"
+      end
     end
 
-    if @post.save && category_check_passed
-      @post.categories << @category if category_index
-      flash[:notice] << " " unless flash[:notice].empty?
+    if @post.valid?
+      @post.save
+      @post.categories << @category if @category and @category.valid?
       flash[:notice] << "Post created successfully!"
       redirect_to posts_path
     else
-      flash[:notice] = nil if flash[:notice].empty?
-      @new_category = params[:new_category]
+      flash[:error] = nil
+      flash[:notice] = flash[:notice].empty? ? nil : flash[:notice]
       render :new
     end
 
@@ -62,28 +60,25 @@ class PostsController < ApplicationController
 
   def update
 
-    category_index = create_new_category
+    @category = create_new_category
 
-    if category_index
-      flash[:notice] = "Category created successfully!"
-      category_check_passed = true
-    elsif @category
-      flash[:notice] = ''
-      category_check_passed = @category.errors.empty?
-    else
-      flash[:notice] = ''
-      category_check_passed = true
+    flash[:notice] = ''
+    if @category and @category.new_record?
+      if @category.save
+        flash[:notice] = "Category created successfully! "
+      else
+        flash[:error] = "Category not created: #{@category.errors.full_messages.join('; ')}"
+      end
     end
 
-    if @post.update(post_params) && category_check_passed
-      @post.categories << @category if category_index
-      flash[:notice] << " " unless flash[:notice].empty?
+    if @post.update(post_params)
+      @post.categories << @category if @category and @category.valid?
       flash[:notice] << "Post updated successfully!"
-      redirect_to post_path(@post)
+      redirect_to posts_path
     else
-      flash[:notice] = nil if flash[:notice].empty?
-      @new_category = params[:new_category]
-      render :edit
+      flash[:error] = nil
+      flash[:notice] = flash[:notice].empty? ? nil : flash[:notice]
+      render :new
     end
 
   end
@@ -142,15 +137,9 @@ class PostsController < ApplicationController
       category_names = Category.all.map(&:name)
       index = category_names.index(params[:new_category])
       if index
-        @category = Category.find_by(name: category_names[index])
-        @category.id
+        category = Category.find_by(name: category_names[index])
       else
-        @category = Category.new(name: params[:new_category])
-        if @category.save
-          @category.id
-        else
-          false
-        end
+        category = Category.new(name: params[:new_category])
       end
     end
 
