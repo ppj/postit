@@ -13,8 +13,8 @@ class SessionsController < ApplicationController
       flash[:notice] = 'You have successfully logged in.'
       redirect_to root_path
     else
-      flash[:errors] = 'The username or password you entered is incorrect.'
-      redirect_to login_path
+      flash.now[:error] = 'The username or password you entered is incorrect.'
+      render :new
     end
 
   end
